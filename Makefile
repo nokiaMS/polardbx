@@ -45,44 +45,44 @@ polardb-x: gms dn cn cdc configs
 
 .PHONY: gms
 gms: sources deps
-	. /etc/profile; \
-	cd $(BUILD_DIR)/polardbx-engine && cat extra/boost/boost_1_77_0.tar.bz2.*  > extra/boost/boost_1_77_0.tar.bz2; \
-	cmake . \
-		-DFORCE_INSOURCE_BUILD=ON \
-		-DSYSCONFDIR:PATH="$(BUILD_DIR)/run/polardbx-engine/u01/mysql" \
-		-DCMAKE_INSTALL_PREFIX:PATH="$(BUILD_DIR)/run/polardbx-engine/u01/mysql" \
-		-DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo  \
-		-DWITH_JEMALLOC="$(WITH_JEMALLOC)"   \
-		-DWITH_PROTOBUF:STRING=bundled     \
-		-DINSTALL_LAYOUT=STANDALONE        \
-		-DMYSQL_MAINTAINER_MODE=0          \
-		-DWITH_SSL=openssl                 \
-		-DWITH_ZLIB=bundled                \
-		-DWITH_MYISAM_STORAGE_ENGINE=1     \
-		-DWITH_INNOBASE_STORAGE_ENGINE=1   \
-		-DWITH_PARTITION_STORAGE_ENGINE=1  \
-		-DWITH_CSV_STORAGE_ENGINE=1        \
-		-DWITH_ARCHIVE_STORAGE_ENGINE=1    \
-		-DWITH_BLACKHOLE_STORAGE_ENGINE=1  \
-		-DWITH_FEDERATED_STORAGE_ENGINE=1  \
-		-DWITH_PERFSCHEMA_STORAGE_ENGINE=1 \
-		-DWITH_EXAMPLE_STORAGE_ENGINE=0    \
-		-DWITH_TEMPTABLE_STORAGE_ENGINE=1  \
-		-DUSE_CTAGS=0                      \
-		-DWITH_EXTRA_CHARSETS=all          \
-		-DWITH_DEBUG=0                     \
-		-DENABLE_DEBUG_SYNC=0              \
-		-DENABLE_DTRACE=0                  \
-		-DENABLED_PROFILING=1              \
-		-DENABLED_LOCAL_INFILE=1           \
-		-DWITH_BOOST="./extra/boost/boost_1_77_0.tar.bz2" \
-		-DPOLARDBX_RELEASE_DATE="20241111" \
-		-DPOLARDBX_ENGINE_VERSION="8.4.19" \
-		-DPOLARDBX_VERSION_EXTRA="X-Cluster" \
-		-DWITH_TESTS=0                     \
-		-DWITH_UNIT_TESTS=0; 			   \
-	make -j $(CPU_CORES) install
-	rm -rf $(BUILD_DIR)/run/polardbx-engine/u01/mysql/mysql-test
+	#. /etc/profile; \
+	#cd $(BUILD_DIR)/polardbx-engine && cat extra/boost/boost_1_77_0.tar.bz2.*  > extra/boost/boost_1_77_0.tar.bz2; \
+	#cmake . \
+	#	-DFORCE_INSOURCE_BUILD=ON \
+	#	-DSYSCONFDIR:PATH="$(BUILD_DIR)/run/polardbx-engine/u01/mysql" \
+	#	-DCMAKE_INSTALL_PREFIX:PATH="$(BUILD_DIR)/run/polardbx-engine/u01/mysql" \
+	#	-DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo  \
+	#	-DWITH_JEMALLOC="$(WITH_JEMALLOC)"   \
+	#	-DWITH_PROTOBUF:STRING=bundled     \
+	#	-DINSTALL_LAYOUT=STANDALONE        \
+	#	-DMYSQL_MAINTAINER_MODE=0          \
+	#	-DWITH_SSL=openssl                 \
+	#	-DWITH_ZLIB=bundled                \
+	#	-DWITH_MYISAM_STORAGE_ENGINE=1     \
+	#	-DWITH_INNOBASE_STORAGE_ENGINE=1   \
+	#	-DWITH_PARTITION_STORAGE_ENGINE=1  \
+	#	-DWITH_CSV_STORAGE_ENGINE=1        \
+	#	-DWITH_ARCHIVE_STORAGE_ENGINE=1    \
+	#	-DWITH_BLACKHOLE_STORAGE_ENGINE=1  \
+	#	-DWITH_FEDERATED_STORAGE_ENGINE=1  \
+	#	-DWITH_PERFSCHEMA_STORAGE_ENGINE=1 \
+	#	-DWITH_EXAMPLE_STORAGE_ENGINE=0    \
+	#	-DWITH_TEMPTABLE_STORAGE_ENGINE=1  \
+	#	-DUSE_CTAGS=0                      \
+	#	-DWITH_EXTRA_CHARSETS=all          \
+	#	-DWITH_DEBUG=0                     \
+	#	-DENABLE_DEBUG_SYNC=0              \
+	#	-DENABLE_DTRACE=0                  \
+	#	-DENABLED_PROFILING=1              \
+	#	-DENABLED_LOCAL_INFILE=1           \
+	#	-DWITH_BOOST="./extra/boost/boost_1_77_0.tar.bz2" \
+	#	-DPOLARDBX_RELEASE_DATE="20241111" \
+	#	-DPOLARDBX_ENGINE_VERSION="8.4.19" \
+	#	-DPOLARDBX_VERSION_EXTRA="X-Cluster" \
+	#	-DWITH_TESTS=0                     \
+	#	-DWITH_UNIT_TESTS=0; 			   \
+	#make -j $(CPU_CORES) install
+	#rm -rf $(BUILD_DIR)/run/polardbx-engine/u01/mysql/mysql-test
 
 .PHONY: dn
 dn: gms
@@ -176,7 +176,7 @@ sources: deps
 	if [ -d "polardbx-sql" ]; then \
 		echo "polardbx-sql exsits."; \
 	else \
-		git clone https://github.com/polardb/polardbx-sql.git; \
+		git clone https://github.com/nokiaMS/polardbx-sql.git; \
 		cd polardbx-sql; \
 		git submodule update --init; \
 	fi
@@ -235,11 +235,11 @@ ifeq ($(V), 7)
 endif
 endif
 ifneq ($(filter $(OS), Ubuntu CentOS),)
-	if [ ! -d /opt/apache-maven-3.9.5 ]; then \
-		sudo wget https://mirrors.aliyun.com/apache/maven/maven-3/3.9.5/binaries/apache-maven-3.9.5-bin.tar.gz -P /tmp && \
-		sudo tar xf /tmp/apache-maven-3.9.5-bin.tar.gz -C /opt && \
-		sudo rm -f /tmp/apache-maven-3.9.5-bin.tar.gz && \
-		sudo ln -fs /opt/apache-maven-3.9.5 /opt/maven && \
+	if [ ! -d /opt/apache-maven-3.9.10 ]; then \
+		sudo wget https://mirrors.aliyun.com/apache/maven/maven-3/3.9.10/binaries/apache-maven-3.9.10-bin.tar.gz -P /tmp && \
+		sudo tar xf /tmp/apache-maven-3.9.10-bin.tar.gz -C /opt && \
+		sudo rm -f /tmp/apache-maven-3.9.10-bin.tar.gz && \
+		sudo ln -fs /opt/apache-maven-3.9.10 /opt/maven && \
 		echo 'export M2_HOME=/opt/maven' | sudo tee /etc/profile.d/maven.sh && \
 		echo 'export PATH=$${M2_HOME}/bin:$${PATH}' | sudo tee -a /etc/profile.d/maven.sh && \
 		sudo chmod +x /etc/profile.d/maven.sh && \
@@ -333,11 +333,11 @@ start() {
 
 	sleep 30
 
-	start_cn
+	#start_cn
 
-	echo "start cdc..."
-	$(BUILD_DIR)/run/polardbx-cdc/polardbx-binlog.standalone/bin/daemon.sh start
-	echo "cdc starts."
+	#echo "start cdc..."
+	#$(BUILD_DIR)/run/polardbx-cdc/polardbx-binlog.standalone/bin/daemon.sh start
+	#echo "cdc starts."
 
 	if ! retry "mysql -h127.1 -P8527 -upolardbx_root -e 'SELECT 1'"; then
 	  echo "cn starts failed."
